@@ -3,6 +3,7 @@ import {NavLink, useHistory} from "react-router-dom";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import * as DeviceApi from "../api/DeviceApi";
+import Layout from "../layout/Layout";
 
 function DeviceCreate(props) {
     let history = useHistory();
@@ -18,8 +19,7 @@ function DeviceCreate(props) {
     };
 
     return(
-        <div>
-            <h1>Gateway create</h1>
+        <Layout title={"Device Create"}>
             <NavLink to={"/device/list"} className={"btn btn-success"}>List</NavLink>
 
             <section>
@@ -74,7 +74,7 @@ function DeviceCreate(props) {
                     </Form>
                 </Formik>
             </section>
-        </div>
+        </Layout>
     );
 }
 

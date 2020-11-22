@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {NavLink, Link} from "react-router-dom";
 import {Button, Table} from "react-bootstrap";
 import * as GatewayApi from "../api/GatewayApi";
+import Layout from "../layout/Layout";
 
 
 function GatewayList() {
@@ -15,8 +16,7 @@ function GatewayList() {
     }, []);
 
     return(
-        <div>
-            <h1>Gateway list</h1>
+        <Layout title={"Gateway List"}>
             <Link to={"/gateway/create"} className={"btn btn-success"}>Create</Link>
             <section>
                 <Table>
@@ -40,7 +40,7 @@ function GatewayList() {
                     </tbody>
                 </Table>
             </section>
-        </div>
+        </Layout>
     );
 }
 

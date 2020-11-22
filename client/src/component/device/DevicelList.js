@@ -3,6 +3,7 @@ import {NavLink, Link} from "react-router-dom";
 import {Button, Table} from "react-bootstrap";
 import * as DeviceApi from "../api/DeviceApi";
 import moment from "moment";
+import Layout from "../layout/Layout";
 
 
 function DeviceList(props) {
@@ -16,8 +17,7 @@ function DeviceList(props) {
     }, []);
 
     return(
-        <div>
-            <h1>Peripheral list</h1>
+        <Layout title={"Peripheral List"}>
             <Link to={"/device/create/" + props.match.params.id} className={"btn btn-success"}>Create</Link>
             <section>
                 <Table>
@@ -41,7 +41,7 @@ function DeviceList(props) {
                     </tbody>
                 </Table>
             </section>
-        </div>
+        </Layout>
     );
 }
 

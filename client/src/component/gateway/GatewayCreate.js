@@ -3,6 +3,7 @@ import {NavLink, useHistory} from "react-router-dom";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import * as GatewayApi from "../api/GatewayApi";
+import Layout from "../layout/Layout";
 
 function GatewayCreate() {
     let history = useHistory();
@@ -18,8 +19,7 @@ function GatewayCreate() {
     };
 
     return(
-        <div>
-            <h1>Gateway create</h1>
+        <Layout title={"Gateway Create"}>
             <NavLink to={"/gateway/list"} className={"btn btn-success"}>List</NavLink>
 
             <section>
@@ -86,7 +86,7 @@ function GatewayCreate() {
                     </Form>
                 </Formik>
             </section>
-        </div>
+        </Layout>
     );
 }
 
