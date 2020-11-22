@@ -1,10 +1,12 @@
 package com.musala.gateway.controller;
 
+import com.musala.gateway.exception.NotFoundException;
 import com.musala.gateway.model.Device;
+import com.musala.gateway.model.Gateway;
 import com.musala.gateway.service.DeviceService;
+import com.musala.gateway.service.GatewayService;
 import com.musala.gateway.validator.DeviceValidator;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class DeviceController {
     private DeviceService deviceService;
     private DeviceValidator deviceValidator;
+    private GatewayService gatewayService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getDeviceById(@PathVariable Long id) {
@@ -24,9 +27,10 @@ public class DeviceController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<?> getDevices(Pageable pageable) {
-        return ResponseEntity.ok(deviceService.findAll(pageable));
+    @GetMapping("/list/{gatewayId}")
+    public ResponseEntity<?> getDevices(@PathVariable Long gatewayId) {
+        Gateway gateway = gatewayService.findById(gatewayId).orElseThrow(NotFoundException::new);
+        return ResponseEntity.ok(deviceService.findByGateway(gateway));
     }
 
     @PostMapping

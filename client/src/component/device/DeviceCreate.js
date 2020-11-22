@@ -2,38 +2,39 @@ import React, {useEffect} from "react";
 import {NavLink, useHistory} from "react-router-dom";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
-import * as GatewayApi from "../api/GatewayApi";
+import * as DeviceApi from "../api/DeviceApi";
 
-function GatewayCreate() {
+function DeviceCreate(props) {
     let history = useHistory();
     useEffect(() => {
 
 
     }, []);
 
-    const saveGateway = (gateway) => {
-        GatewayApi.saveGateway(gateway).then((response) => {
-            history.push("/gateway/list");
+    const savePeripheral = (device) => {
+        DeviceApi.saveDevice(device).then((response) => {
+            history.push("/device/list/" + props.match.params.id);
         });
     };
 
     return(
         <div>
             <h1>Gateway create</h1>
-            <NavLink to={"/gateway/list"} className={"btn btn-success"}>List</NavLink>
+            <NavLink to={"/device/list"} className={"btn btn-success"}>List</NavLink>
 
             <section>
                 <Formik
                     initialValues={{
-
+                        vendor: '',
+                        gateway : {id: props.match.params.id}
                     }}
                     validationSchema={Yup.object({
-                        name: Yup.string()
+                        vendor: Yup.string()
                             .required("Please complete this field"),
                     })}
                     onSubmit={(values, {setSubmitting, setFieldError}) => {
                         setTimeout(() => {
-                            saveGateway(values);
+                            savePeripheral(values);
                             setSubmitting(false);
                         }, 400);
                     }}
@@ -41,37 +42,24 @@ function GatewayCreate() {
                     <Form>
                         <div>
                             <div>
-                                <label className="" htmlFor="name">Name</label>
+                                <label className="" htmlFor="name">Vendor</label>
                                 <div className="input-group">
                                     <Field
-                                        name="name"
+                                        name="vendor"
                                         type="text"
                                         id="name"
-                                        className="form-control" placeholder="Enter Name"
+                                        className="form-control" placeholder="Enter vendor"
                                     />
-                                    <ErrorMessage className={"alert alert-danger"} name="name" component="div"/>
+                                    <ErrorMessage className={"alert alert-danger"} name="vendor" component="div"/>
                                 </div>
                             </div>
                             <div>
-                                <label className="" htmlFor="name">IP</label>
+                                <label className="" htmlFor="status">Status</label>
                                 <div className="input-group">
-                                    <Field
-                                        name="ip"
-                                        type="text"
-                                        id="ip"
-                                        className="form-control" placeholder="Enter ip"
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <label className="" htmlFor="serialNo">IP</label>
-                                <div className="input-group">
-                                    <Field
-                                        name="serialNo"
-                                        type="text"
-                                        id="ip"
-                                        className="form-control" placeholder="Enter serial no"
-                                    />
+                                    <Field as="select" name="status">
+                                        <option value="ONLINE">ONLINE</option>
+                                        <option value="OFFLINE">OFFLINE</option>
+                                    </Field>
                                 </div>
                             </div>
                         </div>
@@ -90,4 +78,4 @@ function GatewayCreate() {
     );
 }
 
-export default GatewayCreate;
+export default DeviceCreate;

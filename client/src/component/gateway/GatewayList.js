@@ -1,13 +1,23 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {NavLink, Link} from "react-router-dom";
 import {Button, Table} from "react-bootstrap";
+import * as GatewayApi from "../api/GatewayApi";
 
 
 function GatewayList() {
+    const [gateways, setGateways] = useState([]);
+
+    useEffect(() => {
+        GatewayApi.findAll().then((response) => {
+            setGateways(response.content);
+        });
+
+    }, []);
+
     return(
         <div>
             <h1>Gateway list</h1>
-            <Link to={"/create"} className={"btn btn-success"}>Create</Link>
+            <Link to={"/gateway/create"} className={"btn btn-success"}>Create</Link>
             <section>
                 <Table>
                     <thead>
@@ -18,13 +28,15 @@ function GatewayList() {
                         <td>Action</td>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>22</td>
-                            <td>ff</td>
-                            <td>192</td>
-                            <td><Button>Peripheral</Button></td>
-                        </tr>
+                        {gateways && gateways.map((item, index) =>
+                            <tr>
+                                <td>{index + 1}</td>
+                                <td>{item.serialNo}</td>
+                                <td>{item.name}</td>
+                                <td>{item.ip}</td>
+                                <td><Link to={"/device/list/" + item.id} className={"btn btn-warning"}>Peripheral</Link></td>
+                            </tr>
+                        )}
                     </tbody>
                 </Table>
             </section>
